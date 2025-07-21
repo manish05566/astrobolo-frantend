@@ -1,0 +1,27 @@
+.bg-wallet{
+    background: #8f6f9e33;
+}
+ul#wallet-tabs li button {
+    margin-right: 10px;   
+    border-radius: 0;
+    font-size: 14px;
+    background: #9b9b9b00;
+    border: 1px solid #8F6F9E;
+    color: #000;
+}
+ul#wallet-tabs li button.active {
+    border: 1px solid #ddd;
+    background: #8F6F9E;
+    color: #fff;
+}
+.popular-recharge section {
+    margin-top: 0px !important;
+    border-radius: var(--bs-border-radius) !important;
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    padding: 1.5rem !important;
+    height: auto !important;
+}
+.popular-recharge section .container{
+    margin-top: 0px !important;
+}

@@ -1,0 +1,21 @@
+{
+  "/_document": "pages/_document.js",
+  "/astrologer": "pages/astrologer.html",
+  "/api/hello": "pages/api/hello.js",
+  "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
+  "/customerOrderHistory": "pages/customerOrderHistory.html",
+  "/astrologerTransaction": "pages/astrologerTransaction.html",
+  "/chat/[id]": "pages/chat/[id].html",
+  "/vendor-requests": "pages/vendor-requests.html",
+  "/customerChatConversations": "pages/customerChatConversations.html",
+  "/": "pages/index.html",
+  "/profile": "pages/profile.html",
+  "/vendorchat": "pages/vendorchat.html",
+  "/vendordetail/[id]": "pages/vendordetail/[id].html",
+  "/vendor": "pages/vendor.html",
+  "/vendorupload": "pages/vendorupload.html",
+  "/wallet-recharge": "pages/wallet-recharge.html",
+  "/wallet-transation": "pages/wallet-transation.html",
+  "/404": "pages/404.html"
+}

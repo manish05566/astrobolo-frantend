@@ -1,0 +1,91 @@
+
+.short-popup{
+    height: 30vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-right: 0px;
+    padding-left: 3px;
+}
+.main-skill {
+    padding-top: 10px;
+    height: 280px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-right: 1.2rem;
+}
+
+.bg-popup-header {
+    background: #f9ebff;    
+    padding: 10px 15px;
+}
+.bg-popup-header .modal-title {
+    font-size: 16px !important;
+}
+.bg-popup-header .btn-close {
+    font-size: 10px !important;
+}
+.popup-height{
+    min-height: 300px;
+}
+.filter-body {
+    background: #fff;
+    padding: 0px;
+    
+}
+.left-tabs {
+    background: #e2dae533;
+    padding: 0px;
+    border-right: 1px solid #ecececd9;
+}
+.left-tabs button {
+    margin: 0px 0px !important;
+    text-align: left;
+    border-radius: 0;
+    width: 100%;
+    color: #222;
+    font-size: 14px;
+    border: 1px solid #ffffff52;
+    outline: 0 !important;
+    border-right: 0px solid teal;
+    padding: 10px 0px 10px 4px;
+    background: #cdcdcd;
+    transition: all 0.3s ease;
+}
+
+.left-tabs button.btn-primary {
+    background: #8F6F9E;
+    border-left: 9px solid #ffbc00;
+    color: #fff;
+    transition: all 0.3s ease; 
+}
+.left-tabs button:hover {
+    background: #8F6F9E;
+    color: #fff;
+    border-left: 9px solid #ffbc00;
+    transition: all 0.3s ease;  
+}
+.form-check.mb-1 {
+    margin-left: 5px;
+    padding: 4px 2px;
+    border-bottom: 1px solid #dddddd73;
+    display: flex;
+    align-items: center;
+}
+.modal-dialog .form-check .form-check-input {
+    float: left;
+    margin-left: 0;
+    font-size: 25px;
+    margin-right: 5px;
+    margin-top: 0;
+    border-radius: 25px;
+    border-color: #8f6f9e;
+}
+.modal-dialog .form-check-input:checked {
+    background-color: #8f6f9e;
+    border-color: #8f6f9e;
+}
+.modal-dialog .form-check.mb-1 label.form-check-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #636363;
+}

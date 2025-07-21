@@ -1,0 +1,130 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/chat/[id]",
+      "regex": "^/chat/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/chat/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/vendordetail/[id]",
+      "regex": "^/vendordetail/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/vendordetail/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/astrologer",
+      "regex": "^/astrologer(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/astrologer(?:/)?$"
+    },
+    {
+      "page": "/astrologerTransaction",
+      "regex": "^/astrologerTransaction(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/astrologerTransaction(?:/)?$"
+    },
+    {
+      "page": "/customerChatConversations",
+      "regex": "^/customerChatConversations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/customerChatConversations(?:/)?$"
+    },
+    {
+      "page": "/customerOrderHistory",
+      "regex": "^/customerOrderHistory(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/customerOrderHistory(?:/)?$"
+    },
+    {
+      "page": "/profile",
+      "regex": "^/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile(?:/)?$"
+    },
+    {
+      "page": "/vendor",
+      "regex": "^/vendor(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/vendor(?:/)?$"
+    },
+    {
+      "page": "/vendor-requests",
+      "regex": "^/vendor\\-requests(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/vendor\\-requests(?:/)?$"
+    },
+    {
+      "page": "/vendorchat",
+      "regex": "^/vendorchat(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/vendorchat(?:/)?$"
+    },
+    {
+      "page": "/vendorupload",
+      "regex": "^/vendorupload(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/vendorupload(?:/)?$"
+    },
+    {
+      "page": "/wallet-recharge",
+      "regex": "^/wallet\\-recharge(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/wallet\\-recharge(?:/)?$"
+    },
+    {
+      "page": "/wallet-transation",
+      "regex": "^/wallet\\-transation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/wallet\\-transation(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "RSC",
+    "varyHeader": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch",
+    "prefetchHeader": "Next-Router-Prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "Next-Router-Segment-Prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

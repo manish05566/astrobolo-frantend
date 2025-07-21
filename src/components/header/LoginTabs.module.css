@@ -1,0 +1,51 @@
+.title-login-popup {
+    font-size: 16px;
+    padding: 10px 30px;
+    width: 75%;
+    margin: 0 auto;
+    font-weight: 600;
+    line-height: 20px;
+    color: #DCA562;
+}
+.custom-modal .custom-card {
+    border: none;
+    box-shadow: none !important;
+    padding-top: 0px !important;
+}
+.custom-modal .custom-card .verification-title {
+    font-size: 18px;
+    padding: 0px 30px;
+    color: #DCA562;
+    font-weight: 600;
+}
+.custom-modal .custom-card form .form-label {
+    color: #8F6F9E;
+    font-size: 14px;
+    font-weight: 400;
+}
+.custom-modal .custom-card form .input-group span.input-group-text {
+    font-size: 14px;
+    background: #8F6F9E;
+    color: #fff;
+    border: 1px solid #8F6F9E;
+}
+input.form-control, .form-select {
+    font-size: 14px;
+    padding: 8px 15px;
+    color: #222;
+    border: 1px solid #8F6F9E !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+button.btn.custom-btn {
+    border: 1px solid #8F6F9E;
+    background: #8F6F9E;
+    color: #fff;
+    padding: 7px 20px;
+    font-size: 14px;
+}
+button.btn.custom-btn-login {
+    border: 1px solid #848654;
+    background: #848654;
+}

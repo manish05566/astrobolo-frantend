@@ -1,0 +1,9 @@
+.bg-theme-dark{
+        background:#8F6F9E !important;
+}
+h2.bg-theme-dark {
+    margin: 0;
+    font-size: 18px;
+    padding: 8px 30px;
+    color: #fff;
+}

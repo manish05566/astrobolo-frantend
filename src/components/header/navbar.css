@@ -1,0 +1,120 @@
+.main-header {
+    box-shadow: 0 3px 6px #ee4E5E33;
+    background: #fff;
+    padding: 0px 0 0px 0px !important;
+    
+}
+.top-menu {
+    border-bottom: 1px solid #dca5625c;
+    background: #dca56229;
+    padding: 4px;
+}
+.main-menu {
+    padding: 8px;
+}
+.my-hearder {
+    display: block;
+}
+.my-top-header ul li button {
+    padding: 5px 10px !important;
+    background: #bd6b5a !important;
+    color: #fff !important;
+    font-size: 12px;
+}
+
+.my-top-header ul li .nav-link, .main-menu ul li .nav-link  {
+    margin: 0;
+    padding: 4px 8px !important;
+    font-size: 14px;
+    margin: 0px 2px;
+    font-weight: 500;
+    color: #222;
+    transition: all 0.5s ease-in-out;
+}
+.my-top-header ul li .nav-link:hover, .main-menu ul li .nav-link:hover {
+    color: #fff;
+    background: #bd6b5a;
+    font-size: 14px;
+}
+.my-top-header ul li .form-select-sm {
+    background: #aa412cc7;
+    color: #ffffff;
+    width: 80px;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.custom-header-pop {
+    background: #AA412C;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+}
+.custom-header-pop button.btn-close {
+    margin-right: 15px;
+    font-size: 14px !important;
+    opacity: 1;
+}
+.custom-modal ul.nav.nav-tabs button.nav-link {
+    background: #AA412C;
+    margin: 0px 10px;
+    color: #fff;
+    border: 1px solid #AA412C;
+    border-radius: 0;
+}
+
+.custom-modal ul.nav.nav-tabs {
+    border: none;
+    padding-bottom: 15px !important;
+}
+.verification-otp {
+    color: #848654;
+    font-size: 18px;
+    font-weight: 400;
+}
+.custom-card .text-danger {
+    font-size: 12px;
+    margin-top: 6px;
+}
+.term-policy {
+    font-size: 12px;
+}
+.term-policy a {
+    color: #dca562c7;
+}
+
+.heading-popup {
+    padding: 12px;
+    font-size: 18px;
+}
+.close-modal{
+    font-weight: 700;
+    color: #646464;
+}
+.profile-icon:active{
+    background: none !important;
+}
+.dropdown-menu-end .dropdown-item a, .dropdown-menu-end .dropdown-item {
+    color: #000;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+.dropdown-menu-end .profile-icon a {
+    color: #ac452f;
+    text-decoration: none;
+}
+@media (max-width: 768px) {
+    .my-top-header {
+        display: none;
+    }
+    .main-menu {
+        padding: 15px 0px;
+    }
+    .top-main-menu {
+        margin-top: 50px;
+    }
+    .main-header{
+        padding: 15px 0 !important;
+    }
+}

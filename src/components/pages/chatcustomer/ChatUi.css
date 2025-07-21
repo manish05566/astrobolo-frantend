@@ -1,0 +1,96 @@
+.chat-header {
+    background-color: #f9ebff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.chat-header .user-info {
+    flex-grow: 1;
+    margin-left: 10px;
+    line-height: 18px;
+}
+.chat-header .user-info h6 {
+    font-size: 14px;
+    line-height: 14px;
+}
+.chat-header .user-info small {
+    color: #555;
+    font-size: 12px;
+}
+.chat-header .end-btn {
+    color: #dc3545;
+    font-weight: bold;
+    text-decoration: none;
+}
+.chat-body {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-image: url('../images/bg-chat.png');
+    /* background-color: #fff; */
+    border: 1px solid #ddd;
+    /* border-radius: 10px; */
+    height: 50vh;
+}
+.chat-message {
+    background-color: #e8e0ec;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    max-width: 70%;
+    align-self: flex-end;
+    margin-left: auto;
+    box-shadow: 0 0px 10px #8f6f9e6b;
+}
+.chat-message-left {
+    background-color: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    max-width: 70%;
+    min-width: auto;
+    align-self: flex-start;
+    margin-right: auto;
+    box-shadow: 0 0px 10px #8f6f9e6b;
+}
+.chat-message-left p {
+    font-size: 14px;
+    margin: 0px;
+}
+.chat-message small {
+    display: block;
+    text-align: right;
+    font-size: 0.8em;
+    color: #666;
+}
+.chat-footer {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+}
+.chat-footer span.input-group-text {
+    border-radius: 20px 10px 0 20px !important;
+    background: #ffffff;
+    border: 0px !important;
+}
+.chat-footer .input-group {
+    background-color: #fff;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+.chat-footer .form-control {
+    border: 1px solid #ebebeb !important;
+    background: #fff !important;
+}
+.chat-footer .btn {
+    border: none;
+    background-color: #f4f4f400 !important;
+    color: #a4a4a4 !important;
+    outline: 0 !important;
+}

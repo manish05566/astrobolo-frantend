@@ -1,0 +1,163 @@
+
+.sectiontop-margin{
+    margin-top: 130px;
+}
+
+
+.profile-sidebar {
+    background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+}
+
+.nav-pills .nav-link {
+    color: #6c757d;
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #f8f9fa;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #fff;
+    color: #4158D0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border: 4px solid #8F6F9E;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.settings-card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.form-switch .form-check-input {
+    width: 3em;
+    height: 1.5em;
+    margin-left: -3.5em;
+}
+
+.activity-item {
+    border-left: 2px solid #e9ecef;
+    padding-left: 20px;
+    position: relative;
+}
+
+.activity-item::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4158D0;
+    position: absolute;
+    left: -7px;
+    top: 5px;
+}
+.profile-name, .profile-number {
+    color: #8F6F9E;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.profile-number {
+    color: #848654 !important;
+}
+.bg-title-profile {
+    background: #8F6F9E;
+    padding: 10px;
+    color: #fff;
+}
+.bg-profile{
+    background-color: #ac452f21;
+}
+
+
+
+.Update-btn {
+    background: #848654;
+    color: #fff !important;
+    transition: all 0.5s ease;
+}
+.Update-btn:hover {
+    background: #8F6F9E;
+    transition: all 0.5s ease;
+}
+
+.textDanger {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+
+}
+
+.small {
+  font-size: 0.8rem; /* Adjust as needed */
+}
+
+
+.readonlySelect {
+  background-color: #e9ecef !important; /* Make it look like readonly */
+  color: #495057;
+  pointer-events: none; /* Optional: Prevent interaction */
+}
+
+
+/* styles.module.css */
+.alertSuccess {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 500;
+  margin-bottom: 12px; /* 👈 Bottom spacing */
+}
+
+.alertError {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 500;
+  margin-bottom: 12px; /* 👈 Bottom spacing */
+}
+
+.fadeUp {
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.centeredMessage {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px; /* Optional, if needed around the wrapper */
+}
+
+
+

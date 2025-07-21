@@ -1,0 +1,68 @@
+.sectopn-m-top{
+    margin-top: 150px;
+}
+.chathistory p {
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+.chathistory img {
+    width: 43px;
+    border: 1px solid #ddd;
+    padding: 4px;
+}
+#Chathistory li{
+    flex-grow: 0;
+    flex-basis: auto;
+    margin-right: 10px;
+    width: 200px;
+}
+#Chathistory li button {
+    margin-right: 10px;
+    border-radius: 0;
+    font-size: 14px;
+    background: #9b9b9b00;
+    border: 1px solid #8F6F9E;
+    color: #000;
+}
+#Chathistory li button.active {
+    border: 1px solid #ddd;
+    background: #8F6F9E;
+    color: #fff;
+}
+
+#Chathistory li button {
+    margin-right: 10px;
+    border-radius: 0;
+    font-size: 14px;
+    background: #9b9b9b00;
+    border: 1px solid #8F6F9E;
+    color: #000;
+}
+
+/* // CSS for the chat card */
+.chat-card {
+    background-color: #f2d6ff52;
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #f2d6ff52;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.continue-caht {
+    flex-grow: 1;
+    padding: 3px 0px 15px 0px;
+    background-image: url(../images/bg-chat.png);
+    background-repeat: repeat;        
+    margin-top: -2px;
+}
+.chat-body-history{
+    /* height: 35vh !important; */
+}
+.continue-caht .bg-theme-dark {
+    align-items: center;
+    width: 150px;
+    display: flex;
+    margin: 0 auto !important;
+    margin-bottom: 5px !important;
+}
