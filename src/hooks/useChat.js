@@ -97,51 +97,91 @@ export default function useChat(data, role, onTimeUp) {
     }
   }, [senderId, receiverId, chatStartTime]);
 
-  useEffect(() => {
-    if (!senderId || !receiverId) return;
-    const fetchMessages = async () => {
-      try {
-        const response = await fetchClient(`${endpoints.base_url}chat/messages?senderId=${senderId}&receiverId=${receiverId}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        const result = await response.json();
 
-        console.log('result', result)
-        if (result?.status && Array.isArray(result.data)) {
-           console.log('result')
-           window.socket.on("initialMessages", (initialMsgs) => {
-          const formatted = initialMsgs.map((msg) => ({
-            ...msg,
-            isSent: msg.sender_id === senderId,
-            isImage: msg.isImage === true || /\.(jpeg|jpg|gif|png|webp)$/i.test(msg.message),
-          }));
-          setMessages((prev) => {
-            const updated = [...prev, ...formatted];
-            localStorage.setItem("chat_messages", JSON.stringify(updated));
-            return updated;
-          });
-        });
 
-        }
-      } catch (error) {
-        console.error("Error fetching chat history:", error);
-      }
-    };
 
+
+useEffect(() => {
+  if (!senderId || !receiverId) return;
+
+  const fetchMessages = async () => {
+    console.log("📡 here fetch data");
+    const url = `${endpoints.base_url}chat/messages?senderId=${senderId}&receiverId=${receiverId}`;
+    console.log("→ fetching:", url);
+    try {
+      const response = await fetchClient(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log("📥 response", response);
+      const result = await response.json();
+      console.log("📑 result", result);
+
+     
+      // 1) render the history you just fetched
     
+      if (result?.status && Array.isArray(result.data)) {
+        const history = result.data.map((msg) => ({
+          ...msg,
+          isSent: msg.sender_id === senderId,
+          isImage:
+            msg.isImage === true ||
+            /\.(jpeg|jpg|gif|png|webp)$/i.test(msg.message),
+          time: new Date(msg.createdAt).toLocaleTimeString([], {
+            hour:   '2-digit',
+            minute: '2-digit'
+          }), 
+        }));
+        setMessages(history);
+        // cache if you still need it
+        localStorage.setItem("chat_messages", JSON.stringify(history));
+      }
 
-    const cachedMessages = localStorage.getItem("chat_messages");
-    if (!cachedMessages) fetchMessages();
-
-
-    if (role === "astrologer" && customerId) {
-      markMessagesAsRead(customerId);
-      refetchUnreadCount();
+     
+      // 2) then subscribe to the gateway’s “initialMessages”
+      //    (the two startup messages created by the server)
+     
+      window.socket.on("initialMessages", (initialMsgs) => {
+        const formatted = initialMsgs.map((msg) => ({
+          ...msg,
+          isSent: msg.sender_id === senderId,
+          isImage:
+            msg.isImage === true ||
+            /\.(jpeg|jpg|gif|png|webp)$/i.test(msg.message),
+          time: new Date(msg.createdAt).toLocaleTimeString([], {
+            hour:   '2-digit',
+            minute: '2-digit'
+          }),
+        }));
+        setMessages((prev) => {
+          const updated = [...prev, ...formatted];
+          localStorage.setItem("chat_messages", JSON.stringify(updated));
+          return updated;
+        });
+      });
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
     }
-  }, [senderId, receiverId, role, customerId]);
+  };
+
+  // always re‑fetch on mount
+  fetchMessages();
+
+  if (role === "astrologer" && customerId) {
+    markMessagesAsRead(customerId);
+    refetchUnreadCount();
+  }
+
+  // cleanup the listener so we don’t double‐subscribe on re‑render
+  return () => {
+    window.socket.off("initialMessages");
+  };
+}, [senderId, receiverId, role, customerId]);
+
+
 
 
 
@@ -212,6 +252,12 @@ export default function useChat(data, role, onTimeUp) {
     const formattedMessage = {
       ...message,
       isSent: isSelfSent,
+      time: new Date(message.createdAt).toLocaleTimeString([], {
+            hour:   '2-digit',
+            minute: '2-digit'
+          }),
+
+          
       isImage: message.isImage === true || /\.(jpeg|jpg|gif|png|webp)$/i.test(message.message),
     };
 
@@ -318,7 +364,7 @@ export default function useChat(data, role, onTimeUp) {
   };
 
 
-  useEffect(() => {
+useEffect(() => {
   if (typeof window === "undefined" || !senderId || !receiverId) return;
 
   let unsubscribe;
@@ -328,31 +374,37 @@ export default function useChat(data, role, onTimeUp) {
     .then(() => {
       // 1. Subscribe to live incoming messages
       unsubscribe = subscribeToMessages(handleIncomingMessage);
-      console.log(" 1 initialMessages:");
-      // ✅ 1. SUBSCRIBE to initialMessages first
+
+      // 2. Listen for the saved “details” + “welcome” payload
       window.socket.on("initialMessages", (initialMsgs) => {
-        console.log(" 2 initialMessages:");
-        console.log("📥 Received initialMessages on frontend:", initialMsgs);
-        const transformed = initialMsgs.map((msg) => ({
+          console.log("📥 Received initialMessages:", initialMsgs);
+          const transformed = initialMsgs.map((msg) => ({
           ...msg,
           isSent: msg.sender_id === senderId,
-          time: formatTime(new Date()), // or extract from createdAt
-        }));
-        setMessages((prev) => [...transformed, ...prev]);
-        localStorage.setItem("chat_messages", JSON.stringify(transformed));
+          // Use the DB‑stored timestamp instead of "new Date()"
+          time: new Date(msg.createdAt).toLocaleTimeString([], {
+            hour:   '2-digit',
+            minute: '2-digit'
+          }),
+          // Carry over any image flag, or detect based on URL
+          isImage:
+            msg.isImage === true ||
+            /\.(jpeg|jpg|gif|png|webp)$/i.test(msg.message),
+          }));
+          // Replace your current messages with these first two
+          setMessages((prev) => [...transformed, ...prev]);
+          localStorage.setItem("chat_messages", JSON.stringify(transformed));
       });
-      
 
       // 3. Join the room
       console.log("➡️ Emitting join_room:", roomId);
       window.socket.emit("join_room", roomId);
 
-       // 4. Role-based triggers - send details/welcome ONLY if no existing messages
-      const cachedMessages = localStorage.getItem("chat_messages");
-      const isFreshChat = !cachedMessages || JSON.parse(cachedMessages).length === 0;
+      // 4. Role‑based logic...
+      const cached = localStorage.getItem("chat_messages");
+      const isFresh = !cached || JSON.parse(cached).length === 0;
 
-      if (role === "customer" && isFreshChat) {
-        //sendCustomerDetails();
+      if (role === "customer" && isFresh) {
         window.socket.on("chat_accepted", ({ receiverId }) =>
           router.push(`/chat/${receiverId}`)
         );
@@ -362,7 +414,6 @@ export default function useChat(data, role, onTimeUp) {
       }
 
       if (role === "astrologer") {
-        //setTimeout(() => sendWelcomeMessage(), 500);
         window.socket.on("request_chat", (payload) => {
           latestRequestRef.current.push(payload);
         });
@@ -371,13 +422,13 @@ export default function useChat(data, role, onTimeUp) {
           localStorage.removeItem("ongoing_chat");
           Swal.fire("Chat ended", "The customer has ended the chat.", "info").then(() => {
             const next = latestRequestRef.current.shift();
-            if (next) {
-              window.socket.emit("accept_chat", {
-                senderId: next.senderId,
-                receiverId: next.receiverId,
-                roomId: next.roomId,
-              });
-            }
+            // if (next) {
+            //   window.socket.emit("accept_chat", {
+            //     senderId: next.senderId,
+            //     receiverId: next.receiverId,
+            //     roomId: next.roomId,
+            //   });
+            // }
             router.push("/vendor-requests");
           });
         });
@@ -391,8 +442,6 @@ export default function useChat(data, role, onTimeUp) {
     disconnectSocket();
   };
 }, [data?.id, role, customerId, senderId, receiverId]);
-
-
 
 
 
