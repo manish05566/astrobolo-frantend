@@ -97,7 +97,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "D:\\astrobolo\\frantend",
+    "outputFileTracingRoot": "/mnt/frantend",
     "experimental": {
       "useSkewCookie": false,
       "nodeMiddleware": false,
@@ -156,7 +156,7 @@
       "middlewarePrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 7,
+      "cpus": 1,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -288,29 +288,29 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
     "turbopack": {
-      "root": "D:\\astrobolo\\frantend"
+      "root": "/mnt/frantend"
     }
   },
-  "appDir": "D:\\astrobolo\\frantend",
+  "appDir": "/mnt/frantend",
   "relativeAppDir": "",
   "files": [
-    ".next\\routes-manifest.json",
-    ".next\\server\\pages-manifest.json",
-    ".next\\build-manifest.json",
-    ".next\\prerender-manifest.json",
-    ".next\\server\\functions-config-manifest.json",
-    ".next\\server\\middleware-manifest.json",
-    ".next\\server\\middleware-build-manifest.js",
-    ".next\\server\\middleware-react-loadable-manifest.js",
-    ".next\\react-loadable-manifest.json",
-    ".next\\dynamic-css-manifest.json",
-    ".next\\server\\dynamic-css-manifest.js",
-    ".next\\BUILD_ID",
-    ".next\\server\\next-font-manifest.js",
-    ".next\\server\\next-font-manifest.json",
-    ".next\\required-server-files.json"
+    ".next/routes-manifest.json",
+    ".next/server/pages-manifest.json",
+    ".next/build-manifest.json",
+    ".next/prerender-manifest.json",
+    ".next/server/functions-config-manifest.json",
+    ".next/server/middleware-manifest.json",
+    ".next/server/middleware-build-manifest.js",
+    ".next/server/middleware-react-loadable-manifest.js",
+    ".next/react-loadable-manifest.json",
+    ".next/dynamic-css-manifest.json",
+    ".next/server/dynamic-css-manifest.js",
+    ".next/BUILD_ID",
+    ".next/server/next-font-manifest.js",
+    ".next/server/next-font-manifest.json",
+    ".next/required-server-files.json"
   ],
   "ignore": [
-    "node_modules\\next\\dist\\compiled\\@ampproject\\toolbox-optimizer\\**\\*"
+    "node_modules/next/dist/compiled/@ampproject/toolbox-optimizer/**/*"
   ]
 }

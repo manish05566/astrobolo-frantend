@@ -1,5 +1,7 @@
 
-import ChatList from "../components/pages/chat/chatList";
+
+import ChatList from '../components/pages/chat/ChatList'; // ✅ RIGHT
+
 
 
 export default function ChatPage() {
