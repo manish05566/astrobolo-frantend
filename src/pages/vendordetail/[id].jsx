@@ -10,6 +10,7 @@ import { endpoints } from "../../../utils/config";
 import { fetchClient } from "../../../utils/fetchClient";
 import { initiateSocket, getRoomId } from "../../../utils/socket";
 import Swal from "sweetalert2";
+import { isBusyWith, markPending } from "../../../utils/chatGuard";
 
 export default function AstrologerDetail() {
   const router = useRouter();
@@ -53,10 +54,13 @@ export default function AstrologerDetail() {
     }
 
     // 2️⃣ seed the same array that ChatList reads on mount
-    localStorage.setItem(
-      "selected_consultants",
-      JSON.stringify([astrologer])
-    );
+    if (isBusyWith(astrologer.id)) {
+  Swal.fire("Already requested", "Please finish or cancel current chat first.", "info");
+  return;
+}
+
+localStorage.setItem("selected_consultants", JSON.stringify([astrologer]));
+markPending(astrologer.id); // 👈
 
     // 3️⃣ init socket & send the chat request
     initiateSocket(userId, astrologer.id);

@@ -7,9 +7,11 @@ import "../components/common.css"; // if you want global common css
 import "../components/header/navbar.css";
 import "../styles/globals.css"; // next.js default global css
 import useAuthGuard from "../hooks/useAuthGuard";
+//import useGlobalChat from "../../utils/useGlobalChat";
 
 function MyApp({ Component, pageProps }) {
    //useAuthGuard();
+   //useGlobalChat();
   useEffect(() => {
     // Dynamically import Bootstrap JS on the client side (after the component mounts)
     if (typeof window !== "undefined") {

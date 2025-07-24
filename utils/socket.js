@@ -3,37 +3,37 @@ import { io } from "socket.io-client";
 let socket = null;
 
 // ✅ export so other modules (e.g., useChat) can import it
+
 export const getRoomId = (id1, id2) => [id1, id2].sort().join("-");
 
-export const initiateSocket = (userId, receiverId) => {
+
+// Auto‑reconnect logic & clean join
+export function initiateSocket(userId, receiverId) {
   const roomId = getRoomId(userId, receiverId);
-  console.log("🟡 [initiateSocket] userId:", userId, "receiverId:", receiverId, "roomId:", roomId);
+
+  if (socket && socket.disconnected) {
+    // we had a socket, but it was disconnected — reconnect & re‑join
+    socket.connect();
+    socket.emit("join_room", roomId);
+    return Promise.resolve(socket);
+  }
 
   return new Promise((resolve) => {
     if (!socket) {
-      socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:4000", {
+      socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
         transports: ["websocket"],
         query: { userId },
         withCredentials: true,
+        reconnection: true,
       });
-
-      if (typeof window !== "undefined") {
-        window.socket = socket;
-      }
+      window.socket = socket; 
     }
-
-    socket.on("connect", () => {
-      console.log("✅ [Socket Connected] ID:", socket.id);
+    socket.once("connect", () => {
       socket.emit("join_room", roomId);
-      console.log("📩 [Join Room] roomId:", roomId);
       resolve(socket);
     });
-
-    socket.on("disconnect", () => {
-      console.log("🔴 [Socket Disconnected]");
-    });
   });
-};
+}
 
 export const sendMessage = (message) => {
   if (!socket) {
@@ -91,6 +91,23 @@ export const acceptChatRequest = (senderId, receiverId) => {
   socket.emit("accept_chat", { senderId, receiverId, roomId });
 };
 
+
+// ...existing code
+
+export const cancelChatRequest = (senderId, receiverId) => {
+  if (!socket) return;
+  const roomId = getRoomId(senderId, receiverId);
+  socket.emit("cancel_chat_request", { senderId, receiverId, roomId });
+};
+
+export const subscribeToChatRequestCancelled = (cb) => {
+  if (!socket) return () => {};
+  const handler = (payload) => cb(payload);
+  socket.on("cancel_chat_request", handler);
+  return () => socket.off("cancel_chat_request", handler);
+};
+
+
 // export const rejectChatRequest = (senderId, receiverId) => {
 //   if (!socket) return;
 //   console.log("❌ [rejectChatRequest] Rejecting chat.");
@@ -129,9 +146,10 @@ export const subscribeToChatRejected = (callback) => {
   };
 };
 
-export const disconnectSocket = () => {
+export function disconnectSocket() {
   if (!socket) return;
-  console.log("🔌 [disconnectSocket] Disconnecting...");
   socket.disconnect();
+  socket.removeAllListeners();
   socket = null;
-};
+}
+

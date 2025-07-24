@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import ProfileLeftbar from "../components/pages/profile_page/Venderprofile/profileleftbar";
 import { endpoints } from "../../utils/config";
 import { fetchClient } from "../../utils/fetchClient";
-import { initiateSocket, subscribeToChatRequests } from "../../utils/socket";
+import { initiateSocket, subscribeToChatRequests, subscribeToChatRequestCancelled } from "../../utils/socket";
 
 function VendorRequests() {
   const [requests, setRequests] = useState([]);
@@ -57,6 +57,20 @@ function VendorRequests() {
 
     return () => unsubscribe?.();
   }, []);
+
+
+  // listen for cancel
+useEffect(() => {
+  const unsub = subscribeToChatRequestCancelled(({ roomId }) => {
+    setRequests((prev) => {
+      const next = prev.filter((r) => r.roomId !== roomId);
+      localStorage.setItem("vendor_requests", JSON.stringify(next));
+      return next;
+    });
+  });
+  return () => unsub?.();
+}, []);
+
 
   // Fetch unread‐count on mount
   useEffect(() => {

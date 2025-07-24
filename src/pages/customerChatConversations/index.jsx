@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { endpoints } from "../../../utils/config";
 import { initiateSocket, getRoomId } from "../../../utils/socket";
 import Swal from "sweetalert2";
+import { isBusyWith, markPending } from "../../../utils/chatGuard";
+
 
 import { fetchClient } from "../../../utils/fetchClient";
 
@@ -109,10 +111,13 @@ function ChatHistoryUi() {
     }
 
     // 2️⃣ seed the same array that ChatList reads on mount
-    localStorage.setItem(
-      "selected_consultants",
-      JSON.stringify([vendor])
-    );
+    if (isBusyWith(vendor.id)) {
+  Swal.fire("Already requested", "Please finish or cancel current chat first.", "info");
+  return;
+}
+
+localStorage.setItem("selected_consultants", JSON.stringify([vendor]));
+markPending(vendor.id); // 👈
 
     // 3️⃣ init socket & send the chat request
     initiateSocket(userId, vendor.id);

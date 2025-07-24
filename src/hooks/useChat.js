@@ -8,6 +8,7 @@ import {
   sendMessage as emitMessage,
   getRoomId,
 } from "../../utils/socket";
+import { unmarkPending } from "../../utils/chatGuard";
 import { endpoints } from "../../utils/config";
 import { fetchClient } from "../../utils/fetchClient";
 
@@ -32,46 +33,6 @@ export default function useChat(data, role, onTimeUp) {
   const receiverId = role === "astrologer" ? customerId : data?.id;
 
 
-  
-
-  const sendCustomerDetails = () => {
-    if (hasSentCustomerInfoRef.current || role !== "customer") return;
-    hasSentCustomerInfoRef.current = true;
-
-    const now = new Date();
-    const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-    const user = currentUser?.user || {};
-    const details = `Hi, I am ${user.name || "-"}\nGender: ${user.gender || "-"}\nDOB: ${user.birth_date || "-"}`;
-
-    const message = {
-      message: details,
-      time,
-      isSent: true,
-      sender_id: senderId,
-      receiver_id: receiverId,
-    };
-
-    emitMessage(message);
-  };
-
-  const sendWelcomeMessage = () => {
-  if (hasWelcomedRef.current || role !== "astrologer") return;
-  hasWelcomedRef.current = true;
-
-  const now = new Date();
-  const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-  const message = {
-    message: "Welcome! How can I help you today? 😊",
-    time,
-    isSent: true,
-    sender_id: senderId,
-    receiver_id: receiverId,
-  };
-
-    emitMessage(message);
-};
 
 
   const [chatStartTime, setChatStartTime] = useState(() => {
@@ -293,6 +254,8 @@ useEffect(() => {
     chatEndedRef.current = true;
 
     localStorage.removeItem("ongoing_chat");
+    localStorage.removeItem("ongoing_chat");
+    unmarkPending(data.id); // astrologer id
 
     if (!data) {
       console.error("Missing astrologer data while ending chat.");
@@ -420,7 +383,7 @@ useEffect(() => {
         window.socket.on("chat_ended_by_customer", () => {
           localStorage.removeItem("chat_messages");
           localStorage.removeItem("ongoing_chat");
-          Swal.fire("Chat ended", "The customer has ended the chat.", "info").then(() => {
+          //Swal.fire("Chat ended", "The customer has ended the chat.", "info").then(() => {
             const next = latestRequestRef.current.shift();
             // if (next) {
             //   window.socket.emit("accept_chat", {
@@ -430,17 +393,25 @@ useEffect(() => {
             //   });
             // }
             router.push("/vendor-requests");
-          });
+          //});
         });
       }
     })
     .catch((err) => console.error("Socket init failed", err));
 
   return () => {
+    // unsubscribe from the message stream
     unsubscribe?.();
-    window.socket.off("initialMessages");
+    // remove _all_ socket listeners we registered
+    window.socket?.off("initialMessages");
+    window.socket?.off("chat_accepted");
+    window.socket?.off("chat_rejected");
+    window.socket?.off("request_chat");
+    window.socket?.off("chat_ended_by_customer");
+    // finally, fully disconnect
     disconnectSocket();
   };
+
 }, [data?.id, role, customerId, senderId, receiverId]);
 
 

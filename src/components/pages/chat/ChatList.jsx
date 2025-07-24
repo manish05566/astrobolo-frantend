@@ -9,8 +9,9 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { fetchClient } from "../../../../utils/fetchClient";
 
+import { isBusyWith, markPending, unmarkPending } from "../../../../utils/chatGuard";
 
-import { subscribeToChatAccepted, initiateSocket , getRoomId} from "../../../../utils/socket";
+import { subscribeToChatAccepted, initiateSocket , getRoomId, cancelChatRequest} from "../../../../utils/socket";
 
 function ChatList() {
   const router = useRouter();
@@ -34,6 +35,12 @@ function ChatList() {
   const [selectedConsultant, setSelectedConsultant] = useState([]);
   const [waitTimes, setWaitTimes] = useState({});
   const [resumeChat, setResumeChat] = useState(null);
+
+
+
+
+  
+  
 
 
 useEffect(() => {
@@ -86,6 +93,7 @@ useEffect(() => {
         console.log("✅ Updated selectedConsultant after astrologer accepted:", updated);
         return updated;
       });
+      unmarkPending(data.receiverId);
     }
   });
 
@@ -463,50 +471,73 @@ useEffect(() => {
                     </div>
                   </div>
 
-                     <button
-                        onClick={() => {
-                          const token = localStorage.getItem("token");
-                          if (!token) {
-                            setShowModal(true);
-                            return;
-                          }
+                       <button
+    onClick={() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setShowModal(true);
+        return;
+      }
 
-                          const chargePerMin = parseFloat(
-                            consultant.chat_charge.replace(/[^\d.]/g, "")
-                          );
-                          const requiredBalance = chargePerMin * 2;
+      if (isBusyWith(consultant.id)) {
+        Swal.fire(
+          "Already requested",
+          "Please finish or cancel current chat.",
+          "info"
+        );
+        return;
+      }
 
-                          if (balance < requiredBalance) {
-                            setSelectedConsultant({
-                              name: consultant.first_name,
-                              requiredAmount: requiredBalance,
-                            });
-                            setShowWaitingModal(true);
-                            return;
-                          }
+      const chargePerMin = parseFloat(
+        consultant.chat_charge.replace(/[^\d.]/g, "")
+      );
+      const requiredBalance = chargePerMin * 2;
 
-                          // 👇 Limit check here (maximum 3 astrologers)
-                          if (selectedConsultant.length >= 3) {
-                            Swal.fire("Limit Reached", "You can request a maximum of 3 astrologers at once.", "warning");
-                            return;
-                          }
+      if (balance < requiredBalance) {
+        setSelectedConsultant({
+          name: consultant.first_name,
+          requiredAmount: requiredBalance,
+        });
+        setShowWaitingModal(true);
+        return;
+      }
 
-                          setSelectedConsultant((prev) => {
-                          const safePrev = Array.isArray(prev) ? prev : [];
-                          const updated = [...safePrev, consultant];
-                          localStorage.setItem("selected_consultants", JSON.stringify(updated));
-                          return updated;
-                        });
+      // 👇 Limit check here (maximum 3 astrologers)
+      if (selectedConsultant.length >= 3) {
+        Swal.fire(
+          "Limit Reached",
+          "You can request a maximum of 3 astrologers at once.",
+          "warning"
+        );
+        return;
+      }
 
 
-                          startChatRequest(consultant);
-                        }}
-                        className={`btn px-3 ${
-                          consultant.is_login ? "btn-outline-success" : "btn-outline-danger"
-                        } btn-sm mb-1`}
-                      >
-                        Chat
-                      </button>
+     setSelectedConsultant((prev) => {
+       const safePrev = Array.isArray(prev) ? prev : [];
+       // if already pending, bail out
+       if (safePrev.some((c) => c.id === consultant.id)) {
+         return safePrev;
+       }
+       // otherwise add and persist
+       const updated = [...safePrev, consultant];
+       localStorage.setItem(
+         "selected_consultants",
+         JSON.stringify(updated)
+       );
+       return updated;
+     });
+
+      markPending(consultant.id);
+      startChatRequest(consultant);
+    }}
+    className={`btn px-3 ${
+      consultant.is_login ? "btn-outline-success" : "btn-outline-danger"
+    } btn-sm mb-1`}
+  >
+    Chat
+  </button>
+
 
 
                 </div>
@@ -688,7 +719,7 @@ useEffect(() => {
                             );
                           }
 
-
+                          unmarkPending(consultant.id);
                           router.push(`/chat/${consultant.id}`);
                         }}
                       >
@@ -698,6 +729,13 @@ useEffect(() => {
                       <button
                         className="btn btn-outline-danger btn-sm ms-1"
                         onClick={() => {
+
+                          const user = JSON.parse(localStorage.getItem("user") || "{}");
+                        const userId = user?.id || user?.user?.id;
+
+                        // send cancel to astrologer
+                        cancelChatRequest(userId, consultant.id);
+
                           setSelectedConsultant((prev) => {
                             const updated = prev.filter((c) => c.id !== consultant.id);
                             localStorage.setItem(
@@ -705,7 +743,9 @@ useEffect(() => {
                               JSON.stringify(updated)
                             );
                             return updated;
+
                           });
+                          unmarkPending(consultant.id);
                         }}
                       >
                         Cancel
@@ -717,7 +757,7 @@ useEffect(() => {
             </div>
           ))}
         </div>
-      )}
+        )}
 
       </div>
 
